@@ -34,19 +34,19 @@ ssh-keygen -t rsa
 6. SSH keysのAuthentication Keysに何か追加されていればOK(ブラウザを閉じてOK)
 
 #### 鍵のコピー方法(ubuntu)
-1. ツールをインストールしてコピーする方法(推奨)
+##### ツールをインストールしてコピーする方法(推奨)
 ```
 sudo apt install xsel
 cat ~/.ssh/id_rsa.pub | xsel -bi
 ```
 パスワードを聞かれたら入力してください
 
-2. id_rsa.pubをatomなどで開いてコピーする方法
+##### id_rsa.pubをatomなどで開いてコピーする方法
 ```
 atom ~/.ssh/id_rsa.pub
 ```
 
-3. id_rsa.pubを端末上に出力してコピーする方法
+##### id_rsa.pubを端末上に出力してコピーする方法
 ```
 cat ~/.ssh/id_rsa.pub
 ```
