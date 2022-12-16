@@ -51,3 +51,9 @@ atom ~/.ssh/id_rsa.pub
 cat ~/.ssh/id_rsa.pub
 ```
 上記コマンドを実行して出力された文字列をコピーしてください
+
+### 鍵が使用できるか確かめる
+```
+ssh -T git@github.com
+```
+何か聞かれたらyesと入力してください
