@@ -1,22 +1,22 @@
 # 困ったらline, teams, Discordなどで連絡を
 ## まずは、ssh(通信方法)の設定
-### ssh用のディレクトリ(~/.ssh)の存在を確認(ubuntuの端末)
+### ssh用のディレクトリ(~/.ssh)の存在を確認
 ```
 ls ~/.ssh
 ```
 ここでid_rsaというファイルが存在した場合連絡してください
 
-### No such file or directoryと出た場合のみ実行(ubuntuの端末)
+### No such file or directoryと出た場合のみ実行
 ```
 mkdir ~/.ssh
 ```
 
-### ~/.sshに移動(ubuntuの端末)
+### ~/.sshに移動
 ```
 cd ~/.ssh
 ```
 
-### sshキーの生成(ubuntuの端末)
+### sshキーの生成
 ```
 ssh-keygen -t rsa
 ```
@@ -24,7 +24,7 @@ ssh-keygen -t rsa
 
 作られたid_rsa.pubが鍵(公開鍵)です
 
-### 鍵をGitHubに登録する(ubuntu)
+### 鍵をGitHubに登録する
 1. https://github.com/settings/ssh
 ここにアクセスしてください
 2. 右上の「New SSH key」(緑のボタン)をクリック
