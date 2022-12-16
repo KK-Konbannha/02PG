@@ -57,3 +57,20 @@ cat ~/.ssh/id_rsa.pub
 ssh -T git@github.com
 ```
 何か聞かれたらyesと入力してください
+
+### sshをリポジトリで使用できるようにします
+1. atomで~/.gitconfigを開きます
+```
+atom ~/.gitconfig
+```
+2. 以下を書き込みます
+```
+[url "git@github.com:"]
+    InsteadOf = https://github.com/
+    InsteadOf = git@github.com:
+```
+
+## お疲れ様でした！！以上でgitのコマンドを全て実行できるようになっていると思います。
+何かあれば、連絡をください
+
+Writer: KK-Konbannha
