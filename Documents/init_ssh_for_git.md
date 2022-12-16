@@ -1,5 +1,5 @@
 # 困ったらline, teams, Discordなどで連絡を
-## まずは、ssh(通信方法)の設定
+## ssh(通信方法)の設定
 ### ssh用のディレクトリ(~/.ssh)の存在を確認
 ```
 ls ~/.ssh
@@ -70,7 +70,5 @@ atom ~/.gitconfig
     InsteadOf = git@github.com:
 ```
 
-## お疲れ様でした！！以上でgitのコマンドを全て実行できるようになっていると思います。
-何かあれば、連絡をください
 
 Writer: KK-Konbannha
