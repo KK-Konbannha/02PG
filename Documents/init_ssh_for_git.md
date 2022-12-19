@@ -21,6 +21,7 @@ cd ~/.ssh
 ssh-keygen -t rsa
 ```
 何か聞かれたらエンターを押せばOK
+
 **作られたid_rsa.pubが鍵(公開鍵)です**
 
 ### 鍵をGitHubに登録する
