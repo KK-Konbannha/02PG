@@ -32,7 +32,7 @@ public class MapData {
         fillMap(MapData.TYPE_WALL);
         digMap(1, 3);
         setImageViews();
-        decideGoal(19,13);
+        decideGoal(19,13); //ここでゴールの位置を決める
     }
 
     // fill two-dimentional arrays with a given number (maps[y][x])

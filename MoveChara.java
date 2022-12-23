@@ -86,10 +86,12 @@ public class MoveChara {
 
     //ゴールしたかどうかを確認するメソッドです
     private void goalCheck(int x, int y) {
-      if ( x == mapData.getGoalX() && y == mapData.getGoalY() ) {
-          System.err.println("ゲームクリア");
-      }
+        if ( x == mapData.getGoalX() && y == mapData.getGoalY() ) {
+            System.err.println("ゲームクリア");
+        }
     }
+
+
     // getter: direction of the cat
     public ImageView getCharaImageView() {
         return charaImageViews[charaDirection];
