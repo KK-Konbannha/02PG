@@ -15,6 +15,8 @@ public class MapData {
     private int[][] maps;
     private int width; // width of the map
     private int height; // height of the map
+    private int goalX;
+    private int goalY; //ゴールの座標
 
     MapData(int x, int y) {
         mapImages = new Image[2];
@@ -30,6 +32,7 @@ public class MapData {
         fillMap(MapData.TYPE_WALL);
         digMap(1, 3);
         setImageViews();
+        decideGoal(19,13);
     }
 
     // fill two-dimentional arrays with a given number (maps[y][x])
@@ -62,6 +65,20 @@ public class MapData {
                 digMap(x + dx * 2, y + dy * 2);
             }
         }
+    }
+
+    //ゴールの位置を決定するメソッドです
+    private void decideGoal(int x, int y) {
+        goalX = x;
+        goalY = y;
+    }
+
+    public int getGoalX() {
+        return goalX;
+    }
+
+    public int getGoalY() {
+        return goalY;
     }
 
     public int getMap(int x, int y) {

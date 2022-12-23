@@ -76,13 +76,20 @@ public class MoveChara {
         if (isMovable(dx, dy)) {
             posX += dx;
             posY += dy;
-	    System.out.println("chara[X,Y]:" + posX + "," + posY);
+	          System.out.println("chara[X,Y]:" + posX + "," + posY);
+            goalCheck(posX, posY); //ここでゴールチェックします
             return true;
         } else {
             return false;
         }
     }
 
+    //ゴールしたかどうかを確認するメソッドです
+    private void goalCheck(int x, int y) {
+      if ( x == mapData.getGoalX() && y == mapData.getGoalY() ) {
+          System.err.println("ゲームクリア");
+      }
+    }
     // getter: direction of the cat
     public ImageView getCharaImageView() {
         return charaImageViews[charaDirection];
