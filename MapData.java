@@ -4,10 +4,12 @@ import javafx.scene.image.ImageView;
 public class MapData {
     public static final int TYPE_SPACE = 0;
     public static final int TYPE_WALL = 1;
-    public static final int TYPE_OTHERS = 2;
+    public static final int TYPE_GOAL = 2;//ゴールを2とし、OTHERSは3になります
+    public static final int TYPE_OTHERS = 3;
     private static final String mapImageFiles[] = {
             "png/SPACE.png",
-            "png/WALL.png"
+            "png/WALL.png",
+            "png/GOAL.png",//[2]はゴールです
     };
 
     private Image[] mapImages;
@@ -19,9 +21,9 @@ public class MapData {
     private int goalY; //ゴールの座標
 
     MapData(int x, int y) {
-        mapImages = new Image[2];
+        mapImages = new Image[3];
         mapImageViews = new ImageView[y][x];
-        for (int i = 0; i < 2; i ++) {
+        for (int i = 0; i < 3; i ++) {
             mapImages[i] = new Image(mapImageFiles[i]);
         }
 
@@ -31,8 +33,8 @@ public class MapData {
 
         fillMap(MapData.TYPE_WALL);
         digMap(1, 3);
-        setImageViews();
         decideGoal(19,13); //ここでゴールの位置を決める
+        setImageViews();
     }
 
     // fill two-dimentional arrays with a given number (maps[y][x])
@@ -69,6 +71,7 @@ public class MapData {
 
     //ゴールの位置を決定するメソッドです
     private void decideGoal(int x, int y) {
+        setMap(x, y, MapData.TYPE_GOAL);//x,yにゴールマスを描画
         goalX = x;
         goalY = y;
     }

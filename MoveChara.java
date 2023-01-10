@@ -67,6 +67,8 @@ public class MoveChara {
             return false;
         } else if (mapData.getMap(posX + dx, posY + dy) == MapData.TYPE_SPACE) {
             return true;
+        }else if (mapData.getMap(posX + dx, posY + dy) == MapData.TYPE_GOAL) {
+            return true;//ゴールマスに乗れるようにする
         }
         return false;
     }
@@ -88,6 +90,7 @@ public class MoveChara {
     private void goalCheck(int x, int y) {
         if ( x == mapData.getGoalX() && y == mapData.getGoalY() ) {
             System.err.println("ゲームクリア");
+            System.exit(0);//ゲームを終了します
         }
     }
 
