@@ -2,7 +2,6 @@ import java.io.IOException;
 import java.io.File;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +19,7 @@ class StageDB {
     static private MediaPlayer gameOverSound = null;
     static private Class mainClass;
     static private final String mainSoundFileName = "sound/Nature_Effects.mp3"; // BGM by OtoLogic
+	static private final String gameoverSoundFileName = "sound/gameover2_8bit.mp3";//BGM gameover
 
     public static void setMainClass(Class mainClass) {
         StageDB.mainClass = mainClass;
@@ -45,6 +45,12 @@ class StageDB {
         if (gameOverSound == null) {
             try {
                 // please write down the code for playing gameover sound
+            	Media m = new Media(new File(gameoverSoundFileName).toURI().toString());
+                MediaPlayer mp = new MediaPlayer(m);
+                mp.setCycleCount(MediaPlayer.INDEFINITE); // loop play
+                mp.setRate(1.0); // 1.0 = normal speed
+                mp.setVolume(0.5); // volume from 0.0 to 1.0
+                mainSound = mp;
             } catch (Exception io) {
                 System.err.print(io.getMessage());
             }
