@@ -19,7 +19,7 @@ class StageDB {
     static private MediaPlayer mainSound = null;
     static private MediaPlayer gameOverSound = null;
     static private Class mainClass;
-    static private final String mainSoundFileName = "sound/JoyToTheWorld.mp3"; // BGM by OtoLogic
+    static private final String mainSoundFileName = "sound/Nature_Effects.mp3"; // BGM by OtoLogic
 
     public static void setMainClass(Class mainClass) {
         StageDB.mainClass = mainClass;
