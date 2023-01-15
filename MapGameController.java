@@ -38,16 +38,27 @@ public class MapGameController implements Initializable {
         int cx = c.getPosX();
         int cy = c.getPosY();
         mapGrid.getChildren().clear();
+        mapImageViews = new ImageView[mapData.getHeight() * mapData.getWidth()];
+        for (int y = 0; y < mapData.getHeight(); y ++) {
+            for (int x = 0; x < mapData.getWidth(); x ++) {
+                int index = y * mapData.getWidth() + x;
+                mapImageViews[index] = mapData.getImageView(x, y);
+            }
+        }
         for (int y = 0; y < mapData.getHeight(); y ++) {
             for (int x = 0; x < mapData.getWidth(); x ++) {
                 int index = y * mapData.getWidth() + x;
                 if (x == cx && y == cy) {
                     mapGrid.add(c.getCharaImageView(), x, y);
-                } else {
+                }else {
                     mapGrid.add(mapImageViews[index], x, y);
                 }
             }
         }
+    }
+
+    public void drawMap(int n, int x, int y){
+        mapGrid.add(mapData.getImageView(x, y),x,y);
     }
 
     // Get users' key actions
@@ -103,6 +114,7 @@ public class MapGameController implements Initializable {
             System.out.println("func1");
             StageDB.getMainStage().hide();
             StageDB.getMainSound().stop();
+            StageDB.getGameOverSound().play();
             StageDB.getGameOverStage().show();
         } catch (Exception ex) {
             System.out.println(ex.getMessage());

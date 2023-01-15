@@ -1,16 +1,47 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class MapData {
     public static final int TYPE_SPACE = 0;
     public static final int TYPE_WALL = 1;
-    public static final int TYPE_GOAL = 2;//ゴールを2とし、OTHERSは3になります
-    public static final int TYPE_OTHERS = 3;
+    public static final int TYPE_GOAL = 2;
+    public static final int TYPE_TIME = 3;
+    public static final int TYPE_OMAMORI = 4;
     private static final String mapImageFiles[] = {
-            "png/SPACE.png",
-            "png/WALL.png",
-            "png/GOAL.png",//[2]はゴールです
+        "png/SPACE.png",
+        "png/WALL.png",
+        "png/GOAL.png",
+        "png/time.png",
+        "png/omamori.png"
     };
+    public static int amountomamori = 1;
+    public static int amountwatch = 1;
+    public static int amountgoal = 1;
 
     private Image[] mapImages;
     private ImageView[][] mapImageViews;
@@ -18,12 +49,13 @@ public class MapData {
     private int width; // width of the map
     private int height; // height of the map
     private int goalX;
-    private int goalY; //ゴールの座標
+    private int goalY;
+
 
     MapData(int x, int y) {
-        mapImages = new Image[3];
+        mapImages = new Image[5];
         mapImageViews = new ImageView[y][x];
-        for (int i = 0; i < 3; i ++) {
+        for (int i = 0; i < 5; i ++) {
             mapImages[i] = new Image(mapImageFiles[i]);
         }
 
@@ -31,9 +63,10 @@ public class MapData {
         height = y;
         maps = new int[y][x];
 
+
         fillMap(MapData.TYPE_WALL);
         digMap(1, 3);
-        decideGoal(19,13); //ここでゴールの位置を決める
+        decideGoal(13,19);
         setImageViews();
     }
 
@@ -49,6 +82,8 @@ public class MapData {
     // dig walls for making roads
     private void digMap(int x, int y) {
         setMap(x, y, MapData.TYPE_SPACE);
+
+
         int[][] dl = { { 0, 1 }, { 0, -1 }, { -1, 0 }, { 1, 0 } };
         int[] tmp;
 
@@ -62,18 +97,76 @@ public class MapData {
         for (int i = 0; i < dl.length; i ++) {
             int dx = dl[i][0];
             int dy = dl[i][1];
+
             if (getMap(x + dx * 2, y + dy * 2) == MapData.TYPE_WALL) {
                 setMap(x + dx, y + dy, MapData.TYPE_SPACE);
                 digMap(x + dx * 2, y + dy * 2);
             }
         }
+
+        for(x = 1; x < 14; x++){
+            for(y = 1; y < 20; y ++){
+                if( maps[x][y-1] + maps[x-1][y] + maps[x+1][y] + maps[x][y+1] == 3 && maps[x][y] == 0 && (x != 1 && y != 1) && (x != 13 && y != 19)){
+                    double d123 = (double) (Math.random());
+                    if(amountwatch < 1){
+                        d123 = 0.9;
+                    }
+                    if(amountomamori < 1){
+                        d123 = 0.1;
+                    }
+                    if(d123 < 0.5){
+                        if(amountwatch > 0){
+                            double dwatch = (double) (Math.random());
+                            if(dwatch < 0.5){
+                                setMap(y, x, MapData.TYPE_TIME);
+                                amountwatch--;
+                            }
+                        }
+                    }else{
+                        if(amountomamori > 0){
+                            double domamori = (double) (Math.random());
+                            if(domamori < 0.5){
+                                setMap(y, x, MapData.TYPE_OMAMORI);
+                                amountomamori--;
+                            }
+                        }
+                    }
+                }
+            }
+            if(x == 13 && y == 19){
+                if(amountwatch > 0 || amountomamori > 0){
+                    x = 1;
+                    y = 1;
+                }
+            }
+        }
+
     }
 
     //ゴールの位置を決定するメソッドです
     private void decideGoal(int x, int y) {
-        setMap(x, y, MapData.TYPE_GOAL);//x,yにゴールマスを描画
-        goalX = x;
-        goalY = y;
+        for(x = 13; x > 0; x--){
+            for(y = 19; y > 0; y--){
+                if( maps[x][y-1] + maps[x-1][y] + maps[x+1][y] + maps[x][y+1] == 3 && maps[x][y] == 0){
+                    if(amountgoal == 1){
+                        setMap(y, x, MapData.TYPE_GOAL);//x,yにゴールマスを描画
+                        amountgoal--;
+                        goalX = y;
+                        goalY = x;
+                    }
+                }
+            }
+        }
+    }
+
+    public int getm(int x, int y){
+        return maps[y][x];
+    }
+
+    public void deleteitem(int x, int y){
+        setMap(x, y, MapData.TYPE_SPACE);
+        setImageViews();
+
     }
 
     public int getGoalX() {

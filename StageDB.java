@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.io.File;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -17,10 +18,11 @@ class StageDB {
     static private Stage gameOverStage = null;
     static private MediaPlayer mainSound = null;
     static private MediaPlayer gameOverSound = null;
+    static private MediaPlayer itemgetSound = null;
     static private Class mainClass;
     static private final String mainSoundFileName = "sound/Nature_Effects.mp3"; // BGM by OtoLogic
-	static private final String gameoverSoundFileName = "sound/gameover2_8bit.mp3";//BGM gameover
-
+    static private final String gameoverSoundFileName = "sound/gameover2_8bit.mp3";//BGM gameover
+    static private final String itemgetSoundFileName = "sound/itemget.mp3";//BGM itemget
     public static void setMainClass(Class mainClass) {
         StageDB.mainClass = mainClass;
     }
@@ -45,17 +47,33 @@ class StageDB {
         if (gameOverSound == null) {
             try {
                 // please write down the code for playing gameover sound
-            	Media m = new Media(new File(gameoverSoundFileName).toURI().toString());
+                Media m = new Media(new File(gameoverSoundFileName).toURI().toString());
                 MediaPlayer mp = new MediaPlayer(m);
-                mp.setCycleCount(MediaPlayer.INDEFINITE); // loop play
+                //mp.setCycleCount(MediaPlayer.INDEFINITE); // loop play
                 mp.setRate(1.0); // 1.0 = normal speed
                 mp.setVolume(0.5); // volume from 0.0 to 1.0
-                mainSound = mp;
+                gameOverSound = mp;
             } catch (Exception io) {
                 System.err.print(io.getMessage());
             }
         }
         return gameOverSound;
+    }
+
+    public static MediaPlayer getitemgetSound() {
+        if (itemgetSound == null) {
+            try {
+                Media m = new Media(new File(itemgetSoundFileName).toURI().toString());
+                MediaPlayer mp = new MediaPlayer(m);
+                //mp.setCycleCount(MediaPlayer.INDEFINITE); // loop play
+                mp.setRate(1.0); // 1.0 = normal speed
+                mp.setVolume(0.5); // volume from 0.0 to 1.0
+                itemgetSound = mp;
+            } catch (Exception io) {
+                System.err.print(io.getMessage());
+            }
+        }
+        return itemgetSound;
     }
 
     public static Stage getMainStage() {

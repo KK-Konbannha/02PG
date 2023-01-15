@@ -3,6 +3,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import javafx.animation.AnimationTimer;
 
+
 public class MoveChara {
     public static final int TYPE_DOWN = 0;
     public static final int TYPE_LEFT = 1;
@@ -11,8 +12,9 @@ public class MoveChara {
 
     private final String[] directions = { "Down", "Left", "Right", "Up" };
     private final String[] animationNumbers = { "1", "2", "3" };
-    private final String pngPathPre = "png/cat";
+    private final String pngPathPre = "png/Chara";
     private final String pngPathSuf = ".png";
+
 
     private int posX;
     private int posY;
@@ -25,6 +27,7 @@ public class MoveChara {
 
     private int charaDirection;
 
+
     MoveChara(int startX, int startY, MapData mapData) {
         this.mapData = mapData;
 
@@ -32,15 +35,17 @@ public class MoveChara {
         charaImageViews = new ImageView[4];
         charaImageAnimations = new ImageAnimation[4];
 
+
+
         for (int i = 0; i < 4; i++) {
             charaImages[i] = new Image[3];
             for (int j = 0; j < 3; j++) {
                 charaImages[i][j] = new Image(
-                        pngPathPre + directions[i] + animationNumbers[j] + pngPathSuf);
+                pngPathPre + directions[i] + animationNumbers[j] + pngPathSuf);
             }
             charaImageViews[i] = new ImageView(charaImages[i][0]);
             charaImageAnimations[i] = new ImageAnimation(
-                    charaImageViews[i], charaImages[i]);
+            charaImageViews[i], charaImages[i]);
         }
 
         posX = startX;
@@ -67,6 +72,10 @@ public class MoveChara {
             return false;
         } else if (mapData.getMap(posX + dx, posY + dy) == MapData.TYPE_SPACE) {
             return true;
+        } else if (mapData.getMap(posX + dx, posY + dy) == MapData.TYPE_TIME) {
+            return true;
+        } else if (mapData.getMap(posX + dx, posY + dy) == MapData.TYPE_OMAMORI) {
+            return true;
         }else if (mapData.getMap(posX + dx, posY + dy) == MapData.TYPE_GOAL) {
             return true;//ゴールマスに乗れるようにする
         }
@@ -75,18 +84,28 @@ public class MoveChara {
 
     // move the cat
     public boolean move(int dx, int dy) {
+        StageDB.getitemgetSound().stop();
         if (isMovable(dx, dy)) {
             posX += dx;
             posY += dy;
-	          System.out.println("chara[X,Y]:" + posX + "," + posY);
-            goalCheck(posX, posY); //ここでゴールチェックします
+            System.out.println("chara[X,Y]:" + posX + "," + posY);
+            goalCheck(posX,posY);
+            if(mapData.getm(posX,posY) == 3){
+                mapData.deleteitem(posX,posY);
+                StageDB.getitemgetSound().play();
+                System.out.println("時間がふえたよ");
+            }
+            if(mapData.getm(posX,posY) == 4){
+                mapData.deleteitem(posX,posY);
+                StageDB.getitemgetSound().play();
+                System.out.println("運が良くなったよ");
+            }
             return true;
         } else {
             return false;
         }
     }
 
-    //ゴールしたかどうかを確認するメソッドです
     private void goalCheck(int x, int y) {
         if ( x == mapData.getGoalX() && y == mapData.getGoalY() ) {
             System.err.println("ゲームクリア");
@@ -94,11 +113,11 @@ public class MoveChara {
         }
     }
 
-
     // getter: direction of the cat
     public ImageView getCharaImageView() {
         return charaImageViews[charaDirection];
     }
+
 
     // getter: x-positon of the cat
     public int getPosX() {
