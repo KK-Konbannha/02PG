@@ -53,6 +53,9 @@ public class MapData {
 
 
     MapData(int x, int y) {
+         amountomamori = 1;
+         amountwatch = 1;
+         amountgoal = 1;
         mapImages = new Image[5];
         mapImageViews = new ImageView[y][x];
         for (int i = 0; i < 5; i ++) {
