@@ -1,3 +1,4 @@
+import java.util.Random;
 import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +24,7 @@ public class MoveChara {
     private ImageAnimation[] charaImageAnimations;
 
     private int charaDirection;
+    private boolean omamoriCheck = false;
 
     MoveChara(int startX, int startY, MapData mapData) {
         this.mapData = mapData;
@@ -92,6 +94,7 @@ public class MoveChara {
                 mapData.deleteitem(posX, posY);
                 StageDB.getItemGetSound().play();
                 System.out.println("運が良くなったよ");
+                omamoriCheck = true;
             }
             return true;
         } else {
@@ -99,11 +102,27 @@ public class MoveChara {
         }
     }
 
-    private void goalCheck(int x, int y) {
+    public void goalCheck(int x, int y) {
         if (x == mapData.getGoalX() && y == mapData.getGoalY()) {
-            System.err.println("ゲームクリア");
-            System.exit(0); // ゲームを終了します
+            if (omamoriCheck) {
+                System.err.println("ゲームクリア");
+                System.exit(0); // ゲームを終了します
+            } else {
+                Random rand = new Random();
+                int n = rand.nextInt(9);
+                if (n >= 0 && n <= 2) {
+                    System.err.println("ゲームクリア");
+                    System.exit(0);
+                } else {
+                    System.err.println("運が足りなかった");
+                    //initialize(null, null);//未完成の部分です。
+                }
+            }
         }
+        /*
+        System.err.println("運が足りなかった");
+        //initialize(null, null);
+        */
     }
 
     // getter: direction of the cat
