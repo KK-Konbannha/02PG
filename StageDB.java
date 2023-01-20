@@ -1,26 +1,29 @@
+import java.io.IOException;
+import java.io.File;
+import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.IOException;
 
 class StageDB {
 
-    private static Stage mainStage = null;
-    private static Stage gameOverStage = null;
-    private static MediaPlayer mainSound = null;
-    private static MediaPlayer gameOverSound = null;
-    private static MediaPlayer itemGetSound = null;
-    private static Class mainClass;
-    private static final String soundDirName = "sound/";
-    private static final String mainSoundFileName = "Nature_Effects.mp3"; // BGM by OtoLogic
-    private static final String gameoverSoundFileName = "gameover2_8bit.mp3"; // BGM gameover
-    private static final String itemGetSoundFileName = "itemget.mp3"; // BGM itemget
-
+    static private Stage mainStage = null;
+    static private Stage gameOverStage = null;
+    static private Stage gameClearStage = null;
+    static private MediaPlayer mainSound = null;
+    static private MediaPlayer gameOverSound = null;
+    static private MediaPlayer itemgetSound = null;
+    static private Class mainClass;
+    static private final String mainSoundFileName = "sound/Nature_Effects.mp3"; // BGM by OtoLogic
+    static private final String gameoverSoundFileName = "sound/gameover2_8bit.mp3";//BGM gameover
+    static private final String itemgetSoundFileName = "sound/itemget.mp3";//BGM itemget
     public static void setMainClass(Class mainClass) {
         StageDB.mainClass = mainClass;
     }
@@ -28,7 +31,7 @@ class StageDB {
     public static MediaPlayer getMainSound() {
         if (mainSound == null) {
             try {
-                Media m = new Media(new File(soundDirName + mainSoundFileName).toURI().toString());
+                Media m = new Media(new File(mainSoundFileName).toURI().toString());
                 MediaPlayer mp = new MediaPlayer(m);
                 mp.setCycleCount(MediaPlayer.INDEFINITE); // loop play
                 mp.setRate(1.0); // 1.0 = normal speed
@@ -45,11 +48,9 @@ class StageDB {
         if (gameOverSound == null) {
             try {
                 // please write down the code for playing gameover sound
-                Media m =
-                        new Media(
-                                new File(soundDirName + gameoverSoundFileName).toURI().toString());
+                Media m = new Media(new File(gameoverSoundFileName).toURI().toString());
                 MediaPlayer mp = new MediaPlayer(m);
-                // mp.setCycleCount(MediaPlayer.INDEFINITE); // loop play
+                //mp.setCycleCount(MediaPlayer.INDEFINITE); // loop play
                 mp.setRate(1.0); // 1.0 = normal speed
                 mp.setVolume(0.5); // volume from 0.0 to 1.0
                 gameOverSound = mp;
@@ -60,21 +61,20 @@ class StageDB {
         return gameOverSound;
     }
 
-    public static MediaPlayer getItemGetSound() {
-        if (itemGetSound == null) {
+    public static MediaPlayer getitemgetSound() {
+        if (itemgetSound == null) {
             try {
-                Media m =
-                        new Media(new File(soundDirName + itemGetSoundFileName).toURI().toString());
+                Media m = new Media(new File(itemgetSoundFileName).toURI().toString());
                 MediaPlayer mp = new MediaPlayer(m);
-                // mp.setCycleCount(MediaPlayer.INDEFINITE); // loop play
+                //mp.setCycleCount(MediaPlayer.INDEFINITE); // loop play
                 mp.setRate(1.0); // 1.0 = normal speed
                 mp.setVolume(0.5); // volume from 0.0 to 1.0
-                itemGetSound = mp;
+                itemgetSound = mp;
             } catch (Exception io) {
                 System.err.print(io.getMessage());
             }
         }
-        return itemGetSound;
+        return itemgetSound;
     }
 
     public static Stage getMainStage() {
@@ -106,5 +106,21 @@ class StageDB {
             }
         }
         return gameOverStage;
+    }
+
+    public static Stage getGameClearStage() {
+        if (gameClearStage == null) {
+            try {
+                System.out.println("StageDB:getGameClearStage()");
+                FXMLLoader loader = new FXMLLoader(mainClass.getResource("MapGameClear.fxml"));
+                VBox root = loader.load();
+                Scene scene = new Scene(root);
+                gameClearStage = new Stage();
+                gameClearStage.setScene(scene);
+            } catch (IOException ioe) {
+                System.err.println(ioe);
+            }
+        }
+        return gameClearStage;
     }
 }
