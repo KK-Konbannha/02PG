@@ -30,6 +30,7 @@ public class MoveChara {
     private boolean omamoriCheck = false;
 
 
+
     MoveChara(int startX, int startY, MapData mapData) {
         this.mapData = mapData;
 
