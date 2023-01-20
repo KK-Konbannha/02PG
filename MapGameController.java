@@ -1,13 +1,17 @@
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
-
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.Group;
+import javafx.scene.layout.Pane;
+import javafx.fxml.FXML;
 
 public class MapGameController implements Initializable {
     public MapData mapData;
@@ -20,8 +24,8 @@ public class MapGameController implements Initializable {
         mapData = new MapData(21, 15);
         chara = new MoveChara(1, 1, mapData);
         mapImageViews = new ImageView[mapData.getHeight() * mapData.getWidth()];
-        for (int y = 0; y < mapData.getHeight(); y++) {
-            for (int x = 0; x < mapData.getWidth(); x++) {
+        for (int y = 0; y < mapData.getHeight(); y ++) {
+            for (int x = 0; x < mapData.getWidth(); x ++) {
                 int index = y * mapData.getWidth() + x;
                 mapImageViews[index] = mapData.getImageView(x, y);
             }
@@ -35,26 +39,26 @@ public class MapGameController implements Initializable {
         int cy = c.getPosY();
         mapGrid.getChildren().clear();
         mapImageViews = new ImageView[mapData.getHeight() * mapData.getWidth()];
-        for (int y = 0; y < mapData.getHeight(); y++) {
-            for (int x = 0; x < mapData.getWidth(); x++) {
+        for (int y = 0; y < mapData.getHeight(); y ++) {
+            for (int x = 0; x < mapData.getWidth(); x ++) {
                 int index = y * mapData.getWidth() + x;
                 mapImageViews[index] = mapData.getImageView(x, y);
             }
         }
-        for (int y = 0; y < mapData.getHeight(); y++) {
-            for (int x = 0; x < mapData.getWidth(); x++) {
+        for (int y = 0; y < mapData.getHeight(); y ++) {
+            for (int x = 0; x < mapData.getWidth(); x ++) {
                 int index = y * mapData.getWidth() + x;
                 if (x == cx && y == cy) {
                     mapGrid.add(c.getCharaImageView(), x, y);
-                } else {
+                }else {
                     mapGrid.add(mapImageViews[index], x, y);
                 }
             }
         }
     }
 
-    public void drawMap(int n, int x, int y) {
-        mapGrid.add(mapData.getImageView(x, y), x, y);
+    public void drawMap(int n, int x, int y){
+        mapGrid.add(mapData.getImageView(x, y),x,y);
     }
 
     // Get users' key actions
@@ -112,6 +116,16 @@ public class MapGameController implements Initializable {
             StageDB.getMainSound().stop();
             StageDB.getGameOverSound().play();
             StageDB.getGameOverStage().show();
+            mapData = new MapData(21, 15);
+            chara = new MoveChara(1, 1, mapData);
+            mapImageViews = new ImageView[mapData.getHeight() * mapData.getWidth()];
+            for (int y = 0; y < mapData.getHeight(); y ++) {
+                for (int x = 0; x < mapData.getWidth(); x ++) {
+                    int index = y * mapData.getWidth() + x;
+                    mapImageViews[index] = mapData.getImageView(x, y);
+                }
+            }
+            drawMap(chara, mapData);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
@@ -123,8 +137,8 @@ public class MapGameController implements Initializable {
         mapData = new MapData(21, 15);
         chara = new MoveChara(1, 1, mapData);
         mapImageViews = new ImageView[mapData.getHeight() * mapData.getWidth()];
-        for (int y = 0; y < mapData.getHeight(); y++) {
-            for (int x = 0; x < mapData.getWidth(); x++) {
+        for (int y = 0; y < mapData.getHeight(); y ++) {
+            for (int x = 0; x < mapData.getWidth(); x ++) {
                 int index = y * mapData.getWidth() + x;
                 mapImageViews[index] = mapData.getImageView(x, y);
             }
@@ -146,4 +160,5 @@ public class MapGameController implements Initializable {
     public void printAction(String actionString) {
         System.out.println("Action: " + actionString);
     }
+
 }

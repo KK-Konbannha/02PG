@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.input.* ?>
+
+<VBox fx:controller="GameClearController" xmlns:fx="http://javafx.com/fxml">
+  <children>
+	        <Label text="Game Clear!!" />
+		<Button onAction="#onGameClearAction" text="ゲームを終わる">
+		</Button>
+
+  </children>
+</VBox>

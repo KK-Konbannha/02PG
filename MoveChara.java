@@ -1,7 +1,9 @@
 import java.util.Random;
-import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Rectangle;
+import javafx.animation.AnimationTimer;
+
 
 public class MoveChara {
     public static final int TYPE_DOWN = 0;
@@ -9,10 +11,11 @@ public class MoveChara {
     public static final int TYPE_RIGHT = 2;
     public static final int TYPE_UP = 3;
 
-    private final String[] directions = {"Down", "Left", "Right", "Up"};
-    private final String[] animationNumbers = {"1", "2", "3"};
-    private final String charaDirName = "png/chara/";
+    private final String[] directions = { "Down", "Left", "Right", "Up" };
+    private final String[] animationNumbers = { "1", "2", "3" };
+    private final String pngPathPre = "png/Chara";
     private final String pngPathSuf = ".png";
+
 
     private int posX;
     private int posY;
@@ -26,6 +29,7 @@ public class MoveChara {
     private int charaDirection;
     private boolean omamoriCheck = false;
 
+
     MoveChara(int startX, int startY, MapData mapData) {
         this.mapData = mapData;
 
@@ -33,14 +37,17 @@ public class MoveChara {
         charaImageViews = new ImageView[4];
         charaImageAnimations = new ImageAnimation[4];
 
+
+
         for (int i = 0; i < 4; i++) {
             charaImages[i] = new Image[3];
             for (int j = 0; j < 3; j++) {
-                charaImages[i][j] =
-                        new Image(charaDirName + directions[i] + animationNumbers[j] + pngPathSuf);
+                charaImages[i][j] = new Image(
+                pngPathPre + directions[i] + animationNumbers[j] + pngPathSuf);
             }
             charaImageViews[i] = new ImageView(charaImages[i][0]);
-            charaImageAnimations[i] = new ImageAnimation(charaImageViews[i], charaImages[i]);
+            charaImageAnimations[i] = new ImageAnimation(
+            charaImageViews[i], charaImages[i]);
         }
 
         posX = startX;
@@ -71,28 +78,28 @@ public class MoveChara {
             return true;
         } else if (mapData.getMap(posX + dx, posY + dy) == MapData.TYPE_OMAMORI) {
             return true;
-        } else if (mapData.getMap(posX + dx, posY + dy) == MapData.TYPE_GOAL) {
-            return true; // ゴールマスに乗れるようにする
+        }else if (mapData.getMap(posX + dx, posY + dy) == MapData.TYPE_GOAL) {
+            return true;//ゴールマスに乗れるようにする
         }
         return false;
     }
 
     // move the cat
     public boolean move(int dx, int dy) {
-        StageDB.getItemGetSound().stop();
+        StageDB.getitemgetSound().stop();
         if (isMovable(dx, dy)) {
             posX += dx;
             posY += dy;
             System.out.println("chara[X,Y]:" + posX + "," + posY);
-            goalCheck(posX, posY);
-            if (mapData.getm(posX, posY) == 3) {
-                mapData.deleteitem(posX, posY);
-                StageDB.getItemGetSound().play();
+            goalCheck(posX,posY);
+            if(mapData.getm(posX,posY) == 3){
+                mapData.deleteitem(posX,posY);
+                StageDB.getitemgetSound().play();
                 System.out.println("時間がふえたよ");
             }
-            if (mapData.getm(posX, posY) == 4) {
-                mapData.deleteitem(posX, posY);
-                StageDB.getItemGetSound().play();
+            if(mapData.getm(posX,posY) == 4){
+                mapData.deleteitem(posX,posY);
+                StageDB.getitemgetSound().play();
                 System.out.println("運が良くなったよ");
                 omamoriCheck = true;
             }
@@ -129,6 +136,7 @@ public class MoveChara {
     public ImageView getCharaImageView() {
         return charaImageViews[charaDirection];
     }
+
 
     // getter: x-positon of the cat
     public int getPosX() {
