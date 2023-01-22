@@ -61,6 +61,33 @@ public class MapGameController implements Initializable {
         mapGrid.add(mapData.getImageView(x, y),x,y);
     }
 
+    //ゴール時にマップを生成orGameClear画面にするメソッド
+    public void goalOrNot(int check) {
+        if (check == 0) {
+            try {
+                System.out.println("GemeClear画面に移行");
+                StageDB.getMainStage().hide();
+                StageDB.getMainSound().stop();
+                StageDB.getGameClearSound().play();
+                StageDB.getGameClearStage().show();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        } else if (check == 1) {
+            System.out.println("マップを生成");
+            mapData = new MapData(21, 15);
+            chara = new MoveChara(1, 1, mapData);
+            mapImageViews = new ImageView[mapData.getHeight() * mapData.getWidth()];
+            for (int y = 0; y < mapData.getHeight(); y ++) {
+                for (int x = 0; x < mapData.getWidth(); x ++) {
+                    int index = y * mapData.getWidth() + x;
+                    mapImageViews[index] = mapData.getImageView(x, y);
+                }
+            }
+            drawMap(chara, mapData);
+        }
+    }
+
     // Get users' key actions
     public void keyAction(KeyEvent event) {
         KeyCode key = event.getCode();
@@ -82,6 +109,7 @@ public class MapGameController implements Initializable {
         chara.setCharaDirection(MoveChara.TYPE_UP);
         chara.move(0, -1);
         drawMap(chara, mapData);
+        goalOrNot(chara.goalCheck(chara.getPosX(), chara.getPosY()));
     }
 
     // Operations for going the cat down
@@ -90,6 +118,7 @@ public class MapGameController implements Initializable {
         chara.setCharaDirection(MoveChara.TYPE_DOWN);
         chara.move(0, 1);
         drawMap(chara, mapData);
+        goalOrNot(chara.goalCheck(chara.getPosX(), chara.getPosY()));
     }
 
     // Operations for going the cat right
@@ -98,6 +127,7 @@ public class MapGameController implements Initializable {
         chara.setCharaDirection(MoveChara.TYPE_LEFT);
         chara.move(-1, 0);
         drawMap(chara, mapData);
+        goalOrNot(chara.goalCheck(chara.getPosX(), chara.getPosY()));
     }
 
     // Operations for going the cat right
@@ -106,6 +136,7 @@ public class MapGameController implements Initializable {
         chara.setCharaDirection(MoveChara.TYPE_RIGHT);
         chara.move(1, 0);
         drawMap(chara, mapData);
+        goalOrNot(chara.goalCheck(chara.getPosX(), chara.getPosY()));
     }
 
     @FXML

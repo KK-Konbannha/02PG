@@ -13,7 +13,7 @@ public class MoveChara {
 
     private final String[] directions = { "Down", "Left", "Right", "Up" };
     private final String[] animationNumbers = { "1", "2", "3" };
-    private final String pngPathPre = "png/Chara";
+    private final String pngPathPre = "png/chara/";
     private final String pngPathSuf = ".png";
 
 
@@ -92,7 +92,6 @@ public class MoveChara {
             posX += dx;
             posY += dy;
             System.out.println("chara[X,Y]:" + posX + "," + posY);
-            goalCheck(posX,posY);
             if(mapData.getm(posX,posY) == 3){
                 mapData.deleteitem(posX,posY);
                 StageDB.getitemgetSound().play();
@@ -110,27 +109,30 @@ public class MoveChara {
         }
     }
 
-    public void goalCheck(int x, int y) {
+    public int goalCheck(int x, int y) {
         if (x == mapData.getGoalX() && y == mapData.getGoalY()) {
             if (omamoriCheck) {
-                System.err.println("ゲームクリア");
-                System.exit(0); // ゲームを終了します
+                System.out.println("お守りの力で運が良い!");
+                System.out.println("ゲームクリア");
+                return 0;
             } else {
                 Random rand = new Random();
                 int n = rand.nextInt(9);
                 if (n >= 0 && n <= 2) {
-                    System.err.println("ゲームクリア");
-                    System.exit(0);
+                    System.out.println("ゲームクリア");
+                    return 0;
                 } else {
-                    System.err.println("運が足りなかった");
-                    //initialize(null, null);//未完成の部分です。
+                    System.out.println("運が足りなかった…");
+                    return 1;
                 }
             }
+            /*
+            System.out.println("運が足りなかった…");
+            return 1;
+            */
+        } else {
+            return 2;
         }
-        /*
-        System.err.println("運が足りなかった");
-        //initialize(null, null);
-        */
     }
 
     // getter: direction of the cat

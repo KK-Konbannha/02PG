@@ -19,10 +19,12 @@ class StageDB {
     static private Stage gameClearStage = null;
     static private MediaPlayer mainSound = null;
     static private MediaPlayer gameOverSound = null;
+    static private MediaPlayer gameClearSound = null;
     static private MediaPlayer itemgetSound = null;
     static private Class mainClass;
     static private final String mainSoundFileName = "sound/Nature_Effects.mp3"; // BGM by OtoLogic
     static private final String gameoverSoundFileName = "sound/gameover2_8bit.mp3";//BGM gameover
+    static private final String gameclearSoundFileName = "sound/gameClearBGM.mp3";//BGM gameclear
     static private final String itemgetSoundFileName = "sound/itemget.mp3";//BGM itemget
     public static void setMainClass(Class mainClass) {
         StageDB.mainClass = mainClass;
@@ -59,6 +61,23 @@ class StageDB {
             }
         }
         return gameOverSound;
+    }
+
+    public static MediaPlayer getGameClearSound() {
+        if (gameClearSound == null) {
+            try {
+                // please write down the code for playing gameover sound
+                Media m = new Media(new File(gameclearSoundFileName).toURI().toString());
+                MediaPlayer mp = new MediaPlayer(m);
+                //mp.setCycleCount(MediaPlayer.INDEFINITE); // loop play
+                mp.setRate(1.0); // 1.0 = normal speed
+                mp.setVolume(0.5); // volume from 0.0 to 1.0
+                gameClearSound = mp;
+            } catch (Exception io) {
+                System.err.print(io.getMessage());
+            }
+        }
+        return gameClearSound;
     }
 
     public static MediaPlayer getitemgetSound() {
