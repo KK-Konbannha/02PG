@@ -28,7 +28,7 @@ public class MoveChara {
 
     private int charaDirection;
     private boolean omamoriCheck = false;
-
+    public boolean timeCheck = false;
 
 
     MoveChara(int startX, int startY, MapData mapData) {
@@ -96,6 +96,7 @@ public class MoveChara {
                 mapData.deleteitem(posX,posY);
                 StageDB.getitemgetSound().play();
                 System.out.println("時間がふえたよ");
+                timeCheck = true;
             }
             if(mapData.getm(posX,posY) == 4){
                 mapData.deleteitem(posX,posY);

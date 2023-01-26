@@ -1,12 +1,17 @@
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Font;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
 import javafx.scene.Group;
@@ -18,6 +23,12 @@ public class MapGameController implements Initializable {
     public MoveChara chara;
     public GridPane mapGrid;
     public ImageView[] mapImageViews;
+
+    private Timeline timer;
+    private Label label;
+
+    @FXML
+    private AnchorPane anchorPane;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -31,6 +42,7 @@ public class MapGameController implements Initializable {
             }
         }
         drawMap(chara, mapData);
+        timeLimit();
     }
 
     // Draw the map
@@ -59,6 +71,56 @@ public class MapGameController implements Initializable {
 
     public void drawMap(int n, int x, int y){
         mapGrid.add(mapData.getImageView(x, y),x,y);
+    }
+
+    //制限時間を設定及び表示するメソッドです
+    public void timeLimit() {
+        if (timer != null) {
+            timer.stop();
+            label.setVisible(false);
+        }
+
+        label = new Label("30");
+
+        timer = new Timeline(new KeyFrame(Duration.millis(1000), new EventHandler<ActionEvent>(){
+            @Override
+            public void handle(ActionEvent event) {
+                label.setText(String.valueOf(Integer.parseInt(label.getText()) - 1));
+
+                if (Integer.parseInt(label.getText()) == 0) {
+                    try {
+                        System.out.println("ゲームオーバー");
+                        StageDB.getMainStage().hide();
+                        StageDB.getMainSound().stop();
+                        StageDB.getGameOverSound().play();
+                        StageDB.getGameOverStage().show();
+                        mapData = new MapData(21, 15);
+                        chara = new MoveChara(1, 1, mapData);
+                        mapImageViews = new ImageView[mapData.getHeight() * mapData.getWidth()];
+                        for (int y = 0; y < mapData.getHeight(); y ++) {
+                            for (int x = 0; x < mapData.getWidth(); x ++) {
+                                int index = y * mapData.getWidth() + x;
+                                mapImageViews[index] = mapData.getImageView(x, y);
+                            }
+                        }
+                        drawMap(chara, mapData);
+                    } catch (Exception ex) {
+                        System.out.println(ex.getMessage());
+                    }
+                }
+
+                if (chara.timeCheck) {
+                    label.setText(String.valueOf(Integer.parseInt(label.getText()) + 15));
+                    chara.timeCheck = false;
+                }
+            }
+        }));
+        timer.setCycleCount(Timeline.INDEFINITE);
+        label.setFont(new Font("Arial",40));
+        anchorPane.setTopAnchor(label, 1.0);
+        anchorPane.setRightAnchor(label, 10.0);
+        anchorPane.getChildren().add(label);
+        timer.play();
     }
 
     //ゴール時にマップを生成orGameClear画面にするメソッド
@@ -175,6 +237,7 @@ public class MapGameController implements Initializable {
             }
         }
         drawMap(chara, mapData);
+        timeLimit();
     }
 
     @FXML
