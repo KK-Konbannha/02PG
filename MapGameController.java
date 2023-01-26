@@ -128,6 +128,7 @@ public class MapGameController implements Initializable {
         if (check == 0) {
             try {
                 System.out.println("GemeClear画面に移行");
+                timer.stop();
                 StageDB.getMainStage().hide();
                 StageDB.getMainSound().stop();
                 StageDB.getGameClearSound().play();
